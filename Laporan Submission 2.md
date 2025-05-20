@@ -170,36 +170,19 @@ Hasil **RMSE** pada **validation** bernilai **0.1951** dan pada **training** ber
 ## **Evaluasi Dampak Model terhadap Business Understanding**
 
 ### **Apakah model sudah menjawab setiap problem statement?**
-
+Model yang dibangun telah menjawab setiap problem statement secara relevan. Dengan menerapkan pendekatan content-based filtering, sistem mampu menyajikan rekomendasi film yang relevan berdasarkan preferensi pengguna individu, yang menjawab tantangan banyaknya pilihan film. Penggunaan metadata seperti genre dan rating dalam proses ekstraksi fitur menunjukkan pemanfaatan data secara efektif. Selain itu, penerapan collaborative filtering berbasis model juga memberikan personalisasi berdasarkan pola perilaku pengguna lain. Dengan demikian, integrasi kedua pendekatan (hybrid) telah menjawab kebutuhan untuk mengatasi cold-start dan meningkatkan akurasi rekomendasi secara menyeluruh.
 
 ### **Apakah model berhasil mencapai goals yang diharapkan?**
-
+Model berhasil memenuhi sebagian besar tujuan yang ditetapkan. Sistem rekomendasi dapat secara otomatis menyaring dan menyarankan film yang sesuai dengan minat pengguna, memanfaatkan data rating, genre, dan informasi film lainnya untuk membangun pemahaman terhadap preferensi pengguna. Evaluasi menunjukkan bahwa meskipun terdapat indikasi overfitting kecil (RMSE training: 0.1777, validation: 0.1951), performa model masih tergolong baik dan mampu menghasilkan prediksi yang cukup akurat. Hal ini menunjukkan bahwa sistem dapat dijadikan dasar untuk menyusun daftar film yang relevan bagi pengguna dengan personalisasi yang memadai.
 
 ### **Apakah setiap solution statement berdampak?**
-
+Ya, kedua pendekatan content-based dan collaborative filtering berkontribusi positif terhadap sistem rekomendasi secara keseluruhan. Content-based filtering berdampak dalam memberikan hasil rekomendasi yang dapat dijelaskan dan sesuai dengan preferensi film pengguna berdasarkan genre, sedangkan collaborative filtering memungkinkan sistem menangkap preferensi melalui pola rating gabungan antar pengguna. Meskipun collaborative filtering menunjukkan sedikit overfitting, dampaknya tetap signifikan karena mampu memberikan personalisasi dan rekomendasi yang sesuai. Secara keseluruhan, keduanya saling melengkapi dan memperkuat kinerja sistem dalam menghadirkan rekomendasi yang akurat dan relevan.
 
 ## Conclusion & Recommendation
 Hasil akhir dari evaluasi adalah sebagai berikut:    
-**Random Forest (Base) - RMSE: 7.9582, R²: 0.2412**   
-**Random Forest (Tuned) - RMSE: 7.8954, R²: 0.2531**   
-**Linear Regression - RMSE: 7.8091, R²: 0.2694**   
+**RMSE: 0.1951**      
 
 **Recommendation:**   
-The best performing model is **Linear Regression with an R² score of 0.2694 and RMSE of 7.8091**   
-
-Berdasarkan metrik-metrik diatas, model Linear Regression mendapatkan performa yang paling baik. Hal ini menunjukkan bahwa kompleksitas algoritma tidak menjamin bahwa algoritma itu akan menghasilkan performa yang baik di semua jenis dataset. Linear Regression yang terkenal dengan algoritmanya yang tidak terlalu kompleks lebih cocok untuk diterapkan pada dataset prediksi konsumsi energi. Hasil dari 5-Fold Cross Validation juga menyatakan performa dari algoritma Linear Regression lebih baik dari Random Forest Regressor. Hasil pengembangan model prediksi konsumsi energi ini diharapkan dapat membantu untuk optimasi konsumsi energi di berbagai tempat sehingga dapat membantu mengurangi dampak krisis energi global dan meningkatkan pemanfaatn energi terbarukan. 
+Berdasarkan hasil pembahasan, rekomendasi yang dapat diberikan adalah mencoba mengembangkan sistem rekomendasi film berbasis hybrid dengan menggabungkan content-based filtering dan collaborative filtering secara lebih terintegrasi untuk meningkatkan akurasi dan relevansi hasil. Untuk memperkaya fitur content-based, metadata seperti aktor, sutradara, atau sinopsis dapat ditambahkan dari sumber eksternal seperti IMDb atau TMDb. Mengingat masih terdapat overfitting ringan pada collaborative filtering, penggunaan teknik regulasi seperti dropout, early stopping, dan validasi silang dapat membantu meningkatkan generalisasi model. Selain itu, untuk menangani cold-start pengguna baru, sistem dapat mengandalkan rekomendasi awal menggunakan content based filtering. Evaluasi sistem juga perlu diperluas dengan metrik seperti Precision\@K dan Recall\@K untuk merefleksikan performa lebih baik. Melihat tingginya volume produksi film dan beragamnya preferensi penonton, pengembangan sistem rekomendasi yang mampu menyajikan film secara personal dan efisien dapat sangat membantu. Dengan mengintegrasikan pendekatan content-based dan collaborative filtering, pengguna dapat memperoleh saran film yang relevan baik berdasarkan genre favorit maupun pola perilaku pengguna lain. Pendekatan ini akan membantu mengatasi masalah kelebihan pilihan (information overload) dan meningkatkan kepuasan pengguna dalam menjelajahi platform film digital.
 
 **---Ini adalah bagian akhir laporan---**
-
-Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
-
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
-
-**---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
