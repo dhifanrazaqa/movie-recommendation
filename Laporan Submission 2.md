@@ -76,13 +76,15 @@ Dataset ini memiliki total:
 
 ### **Exploratory Data Analysis (EDA)**
 * **Distribusi Jumlah Film per Genre**:  
-   
+   ![download](https://github.com/user-attachments/assets/ff0f7858-872b-4b48-b801-2126eba861ef)  
   *Insight:* Dapat dilihat genre Drama memiliki jumlah film terbanyak yang disusul dengan Comedy serta Thriller
 
-* **Distribusi Jumlah Film dengan Rating Tertentu**:  
+* **Distribusi Jumlah Film dengan Rating Tertentu**:
+  ![download](https://github.com/user-attachments/assets/cbab0874-f094-4164-af75-77b170e85497)  
   *Insight:* Rating 3 sampai dengan 4 mendominasi grafik, hal ini menunjukkan pengguna cenderung memberikan nilai tengah-tengah tidak terlalu baik maupun terlalu buruk
 
-* **Distribusi Rata-rata Rating per Film**:  
+* **Distribusi Rata-rata Rating per Film**:
+  ![download](https://github.com/user-attachments/assets/c9c3daa3-8af4-4829-9a07-e8cd53d2d7d6)  
   *Insight:* Rata-rata Rating 3 sampai dengan 4 mendominasi grafik, hal ini menunjukkan pengguna cenderung memberikan nilai tengah-tengah tidak terlalu baik maupun terlalu buruk
 
 ## Data Preparation
@@ -109,16 +111,16 @@ Content-based filtering adalah metode sistem rekomendasi yang menyarankan item (
 **Showing recommendations for: Toy Story (1995)**  
 Toy Story (1995)  Adventure|Animation|Children|Comedy|Fantasy  
 **Top 10 movie recommendation**  
-Antz (1998)  
-Toy Story 2 (1999)  
-Adventures of Rocky and Bullwinkle, The (2000)  
-Emperor's New Groove, The (2000)  
-Monsters, Inc. (2001)  
-DuckTales: The Movie - Treasure of the Lost Lamp (1990)  
-Wild, The (2006)  
-Shrek the Third (2007)  
-Tale of Despereaux, The (2008)  
-Asterix and the Vikings (Astérix et les Vikings) (2006)  
+- Antz (1998)  
+- Toy Story 2 (1999)  
+- Adventures of Rocky and Bullwinkle, The (2000)  
+- Emperor's New Groove, The (2000)  
+- Monsters, Inc. (2001)  
+- DuckTales: The Movie - Treasure of the Lost Lamp (1990)  
+- Wild, The (2006)  
+- Shrek the Third (2007)  
+- Tale of Despereaux, The (2008)  
+- Asterix and the Vikings (Astérix et les Vikings) (2006)  
 
 ### **Collaborative Filtering**  
 Collaborative filtering adalah pendekatan sistem rekomendasi yang memanfaatkan pola interaksi antar pengguna dan item untuk memberikan rekomendasi, tanpa perlu mengetahui konten dari item tersebut. Pada project ini, collaborative filtering diimplementasikan menggunakan **neural network dengan embedding layer** melalui arsitektur `RecommenderNet`. Model ini memetakan setiap pengguna dan film ke dalam representasi vektor berdimensi tetap (**embedding**), lalu menghitung **dot product** antara vektor pengguna dan film sebagai estimasi kecocokan (rating). Nilai akhir dilewatkan ke fungsi aktivasi **sigmoid** agar berada dalam rentang 0–1. Model dilatih menggunakan fungsi loss *binary crossentropy* dan dioptimasi dengan Adam Optimizer. Pendekatan ini efektif karena mampu menangkap preferensi laten dari pengguna berdasarkan pola rating secara kolektif, bahkan ketika item-item yang direkomendasikan tidak mirip secara konten.
@@ -162,7 +164,7 @@ Root Mean Squared Error (RMSE) adalah akar dari MSE, yang mengembalikan kesalaha
 
 ### Hasil Evaluasi
 Setelah proses evaluasi dilakukan, didapatkan hasil sebagai berikut:    
-
+![download](https://github.com/user-attachments/assets/796355c2-a8fb-470f-987d-7b19e2c40758)  
 Hasil **RMSE** pada **validation** bernilai **0.1951** dan pada **training** bernilai **0.1777** Terlihat bahwa hasil training masih menunjukkan **overfitting**, yang artinya model akan kesulitan untuk memprediksi data baru. Tetapi **overfitting** yang terjadi disini tidak terlalu parah dan model masih bisa memberikan prediksi. 
 
 ## **Evaluasi Dampak Model terhadap Business Understanding**
