@@ -89,14 +89,28 @@ Dataset ini memiliki total:
 
 ## Data Preparation
 Proses data preparation yang digunakan untuk dataset ini tidak terlalu banyak. Hanya ada dua proses yang digunakan sebagai berikut:
+### Handling Missing Value
+Tidak ada missing value sehingga tidak dilakukan apapun
+### Handling Duplicates
+Tidak ada data yang duplikat sehingga tidak dilakukan apapun
+### Handling Outliers
+Tidak ada data yang outlier shingga tidak dilaukan apapun
+### Content Based Filtering Preparation
 - **Menghapus Genre yang Tidak Relevan**  
   Proses yang dilakukan pada tahap ini adalah menghapus kategori genre yang tidak relevan. Saat proses pemahaman data, ditemukan ada satu kategori genre yang tidak relevan bernilai "(no genres listed)". Hal ini dapat mengganggu sistem rekomendasi yang akan dibuat karena nanti hasil rekomendasinya bisa saja terpengaruh oleh genre yang tidak relevan sehingga genre tersebut perlu dihapus.
 - **Mengubah Separator Untuk Genre**  
   Proses yang dilakukan pada tahap ini adalah mengubah separator yang digunakan untuk data genre yang tadinya "|" menjadi hanya spasi. Hal ini dilakukan agar TF-IDF Vectorizer dapat secara otomatis memisahkan kategori genre yang banyak menjadi hanya satu kata berdasarkan spasi sebagai pemisahnya.
+- **Ekstraksi Fitur TF-IDF**  
+  Metode ekstraksi fitur dengan **TF-IDF (Term Frequency-Inverse Document Frequency)** adalah metode untuk mengubah teks menjadi representasi numerik yang mencerminkan pentingnya kata dalam suatu dokumen relatif terhadap seluruh koleksi dokumen. **TF** mengukur seberapa sering kata muncul dalam dokumen, sedangkan **IDF** menurunkan bobot kata-kata umum yang muncul di banyak dokumen. Hasil akhirnya adalah nilai TF-IDF yang lebih tinggi untuk kata-kata yang sering muncul dalam satu dokumen tetapi jarang muncul di dokumen lain, sehingga lebih representatif untuk membedakan dokumen tersebut.
+### Collaborative Filltering Preparation
+- **Encode Label**  
+  Encode label adalah proses mengubah data kategorikal menjadi format numerik agar dapat diproses oleh model machine learning. Proses ini penting karena sebagian besar model hanya menerima input berupa angka. Metode yang umum digunakan antara lain **label encoding**, yang memberi angka unik untuk setiap kategori, dan **one-hot encoding**, yang mengubah kategori menjadi vektor biner. Dengan encoding, data kategorikal dapat direpresentasikan secara numerik tanpa menimbulkan makna matematis yang salah. Pada project ini yang digunakan adalah Label Encoding.
+- **Split Data**  
+  Pada tahapan ini data akan diacak dan dibagi dalam rasio 80:20 untuk memastikan data training cukup banyak dan data testing dapat dipercaya. Sebelum membagi data dengan rasio tertentu, data harus disimpan untuk dalam variabel x dan y, dimana x adalah fiturnya dan y adalah label.
 
 ## Modeling
 ### **Content Based Filtering**  
-Content-based filtering adalah metode sistem rekomendasi yang menyarankan item (dalam hal ini film) berdasarkan kemiripan karakteristik kontennya. Pada project ini, pendekatan dilakukan dengan merepresentasikan fitur *genre* dari setiap film ke dalam bentuk vektor menggunakan **TF-IDF (Term Frequency-Inverse Document Frequency)**, yang menangkap seberapa penting kata (genre) tertentu dalam keseluruhan koleksi film. Kemudian, kemiripan antar film dihitung menggunakan **cosine similarity**, yaitu ukuran sejauh mana dua film memiliki genre yang serupa. Fungsi `content_based_recommendations()` akan menerima judul film sebagai input, menghitung kemiripan antara film tersebut dengan seluruh film lain, lalu mengembalikan daftar film dengan genre yang paling mirip. Dengan pendekatan ini, pengguna akan mendapatkan rekomendasi yang relevan berdasarkan preferensi film yang telah mereka sukai sebelumnya, tanpa memerlukan data dari pengguna lain.
+Content-based filtering adalah metode sistem rekomendasi yang menyarankan item (dalam hal ini film) berdasarkan kemiripan karakteristik kontennya. Pada project ini, pendekatan dilakukan dengan merepresentasikan fitur *genre* dari setiap film ke dalam bentuk vektor menggunakan **TF-IDF** yang telah dilakukan pada tahap data preparation. Kemudian, kemiripan antar film dihitung menggunakan **cosine similarity**, yaitu ukuran sejauh mana dua film memiliki genre yang serupa dengan menghitung sudut kosinus antara dua vektor TF-IDF. Nilai cosine similarity berkisar antara 0 hingga 1, di mana nilai 1 menunjukkan bahwa dua film sangat mirip (vektor sejajar), dan nilai 0 menunjukkan bahwa keduanya tidak memiliki kesamaan genre sama sekali (vektor saling tegak lurus). Fungsi `content_based_recommendations()` akan menerima judul film sebagai input, menghitung kemiripan antara film tersebut dengan seluruh film lain, lalu mengembalikan daftar film dengan genre yang paling mirip. Dengan pendekatan ini, pengguna akan mendapatkan rekomendasi yang relevan berdasarkan preferensi film yang telah mereka sukai sebelumnya, tanpa memerlukan data dari pengguna lain.
 
 #### **Kelebihan:**  
 - **Tidak bergantung pada pengguna lain:** Sistem membuat rekomendasi hanya berdasarkan preferensi pengguna itu sendiri dan karakteristik konten film.
@@ -157,13 +171,39 @@ Collaborative filtering adalah pendekatan sistem rekomendasi yang memanfaatkan p
 - Batman: Under the Red Hood (2010) : Action|Animation
 
 ## Evaluation
-Metrik evaluasi yang digunakan dalam kasus ini adalah Root Mean Squared Error (RMSE). Metrik ini sangat sesuai digunakan dengan konteks data, problem statement, dan solusi yang diinginkan untuk kasus sistem rekomendasi film.
+Metrik evaluasi yang digunakan dalam kasus ini adalah Precision dan Root Mean Squared Error (RMSE). Kedua metrik ini sangat sesuai digunakan dengan konteks data, problem statement, dan solusi yang diinginkan untuk kasus sistem rekomendasi film.
+
+### Precision
+![dos_819311f78d87da1e0fd8660171fa58e620211012160253](https://github.com/user-attachments/assets/359bd977-1680-4da1-b1bd-3d8195ab3a05)  
+Precision dalam sistem rekomendasi adalah metrik evaluasi yang digunakan untuk mengukur seberapa relevan item yang direkomendasikan oleh sistem kepada pengguna. Dalam konteks ini, sistem merekomendasikan item berdasarkan kemiripan fitur dengan item yang pernah disukai atau dikonsumsi pengguna sebelumnya. Precision dihitung dengan membagi jumlah item relevan yang berhasil direkomendasikan dengan jumlah total item yang direkomendasikan. Nilai precision yang tinggi menunjukkan bahwa sebagian besar rekomendasi yang diberikan sesuai dengan minat pengguna, sehingga sistem dianggap efektif dalam memahami preferensi berdasarkan konten.
+
 ### Root Mean Squared Error
 ![image](https://raw.githubusercontent.com/dhifanrazaqa/Predictive_analysis/refs/heads/main/Screenshot%202025-04-04%20061425.png)    
 Root Mean Squared Error (RMSE) adalah akar dari MSE, yang mengembalikan kesalahan ke skala asli variabel target sehingga lebih mudah diinterpretasikan dibandingkan MSE. Karena RMSE masih berbasis kuadrat, ia tetap sensitif terhadap outlier, tetapi lebih mudah dalam memahami seberapa besar rata-rata kesalahan prediksi dalam satuan yang sama dengan target. RMSE sering digunakan ketika model harus menangani variasi data yang besar dan dimana penalti untuk kesalahan yang lebih besar perlu diperhatikan.
 
-### Hasil Evaluasi
+## Hasil Evaluasi
 Setelah proses evaluasi dilakukan, didapatkan hasil sebagai berikut:    
+
+### Content Based Filtering
+**Showing recommendations for: Toy Story (1995)**  
+Toy Story (1995)  Adventure|Animation|Children|Comedy|Fantasy  
+**Top 10 movie recommendation**
+- Antz (1998) : Adventure Animation Children Comedy Fantasy
+- Toy Story 2 (1999) : Adventure Animation Children Comedy Fantasy
+- Adventures of Rocky and Bullwinkle, The (2000) : Adventure Animation Children Comedy Fantasy
+- Emperor's New Groove, The (2000) : Adventure Animation Children Comedy Fantasy
+- Monsters, Inc. (2001) : Adventure Animation Children Comedy Fantasy
+- DuckTales: The Movie - Treasure of the Lost Lamp (1990) : Adventure Animation Children Comedy Fantasy
+- Wild, The (2006) : Adventure Animation Children Comedy Fantasy
+- Shrek the Third (2007) : Adventure Animation Children Comedy Fantasy
+- Tale of Despereaux, The (2008) : Adventure Animation Children Comedy Fantasy
+- Asterix and the Vikings (Astérix et les Vikings) (2006) : Adventure Animation Children Comedy Fantasy
+
+**Precision = 10/10 * 100 = 100**
+
+Sistem rekomendasi telah berhasil memberikan sepuluh rekomendasi dengan nilai kategori yang sama semua sehingga bisa disimpulkan nilai **Precision** untuk sistem rekomendasi ini adalah **100**.
+
+### Collaborative Filtering
 ![download](https://github.com/user-attachments/assets/796355c2-a8fb-470f-987d-7b19e2c40758)  
 Hasil **RMSE** pada **validation** bernilai **0.1951** dan pada **training** bernilai **0.1777** Terlihat bahwa hasil training masih menunjukkan **overfitting**, yang artinya model akan kesulitan untuk memprediksi data baru. Tetapi **overfitting** yang terjadi disini tidak terlalu parah dan model masih bisa memberikan prediksi. 
 
@@ -173,16 +213,18 @@ Hasil **RMSE** pada **validation** bernilai **0.1951** dan pada **training** ber
 Model yang dibangun telah menjawab setiap problem statement secara relevan. Dengan menerapkan pendekatan content-based filtering, sistem mampu menyajikan rekomendasi film yang relevan berdasarkan preferensi pengguna individu, yang menjawab tantangan banyaknya pilihan film. Penggunaan metadata seperti genre dan rating dalam proses ekstraksi fitur menunjukkan pemanfaatan data secara efektif. Selain itu, penerapan collaborative filtering berbasis model juga memberikan personalisasi berdasarkan pola perilaku pengguna lain. Dengan demikian, integrasi kedua pendekatan (hybrid) telah menjawab kebutuhan untuk mengatasi cold-start dan meningkatkan akurasi rekomendasi secara menyeluruh.
 
 ### **Apakah model berhasil mencapai goals yang diharapkan?**
-Model berhasil memenuhi sebagian besar tujuan yang ditetapkan. Sistem rekomendasi dapat secara otomatis menyaring dan menyarankan film yang sesuai dengan minat pengguna, memanfaatkan data rating, genre, dan informasi film lainnya untuk membangun pemahaman terhadap preferensi pengguna. Evaluasi menunjukkan bahwa meskipun terdapat indikasi overfitting kecil (RMSE training: 0.1777, validation: 0.1951), performa model masih tergolong baik dan mampu menghasilkan prediksi yang cukup akurat. Hal ini menunjukkan bahwa sistem dapat dijadikan dasar untuk menyusun daftar film yang relevan bagi pengguna dengan personalisasi yang memadai.
+Model berhasil memenuhi sebagian besar tujuan yang ditetapkan. Sistem rekomendasi dapat secara otomatis menyaring dan menyarankan film yang sesuai dengan minat pengguna, memanfaatkan data rating, genre, dan informasi film lainnya untuk membangun pemahaman terhadap preferensi pengguna. Evaluasi menunjukkan untuk Content Based Filtering memiliki nilai Precision yang sangat baik dan untuk Collaborative Filtering meskipun terdapat indikasi overfitting kecil (RMSE training: 0.1777, validation: 0.1951), performa model masih tergolong baik dan mampu menghasilkan prediksi yang cukup akurat. Hal ini menunjukkan bahwa sistem dapat dijadikan dasar untuk menyusun daftar film yang relevan bagi pengguna dengan personalisasi yang memadai.
 
 ### **Apakah setiap solution statement berdampak?**
 Ya, kedua pendekatan content-based dan collaborative filtering berkontribusi positif terhadap sistem rekomendasi secara keseluruhan. Content-based filtering berdampak dalam memberikan hasil rekomendasi yang dapat dijelaskan dan sesuai dengan preferensi film pengguna berdasarkan genre, sedangkan collaborative filtering memungkinkan sistem menangkap preferensi melalui pola rating gabungan antar pengguna. Meskipun collaborative filtering menunjukkan sedikit overfitting, dampaknya tetap signifikan karena mampu memberikan personalisasi dan rekomendasi yang sesuai. Secara keseluruhan, keduanya saling melengkapi dan memperkuat kinerja sistem dalam menghadirkan rekomendasi yang akurat dan relevan.
 
 ## Conclusion & Recommendation
 Hasil akhir dari evaluasi adalah sebagai berikut:    
-**RMSE: 0.1951**      
+
+Content Based Filtering: **Precision: 100**  
+Collaborative Filtering: **RMSE: 0.1951**      
 
 **Recommendation:**   
-Berdasarkan hasil pembahasan, rekomendasi yang dapat diberikan adalah mencoba mengembangkan sistem rekomendasi film berbasis hybrid dengan menggabungkan content-based filtering dan collaborative filtering secara lebih terintegrasi untuk meningkatkan akurasi dan relevansi hasil. Untuk memperkaya fitur content-based, metadata seperti aktor, sutradara, atau sinopsis dapat ditambahkan dari sumber eksternal seperti IMDb atau TMDb. Mengingat masih terdapat overfitting ringan pada collaborative filtering, penggunaan teknik regulasi seperti dropout, early stopping, dan validasi silang dapat membantu meningkatkan generalisasi model. Selain itu, untuk menangani cold-start pengguna baru, sistem dapat mengandalkan rekomendasi awal menggunakan content based filtering. Evaluasi sistem juga perlu diperluas dengan metrik seperti Precision\@K dan Recall\@K untuk merefleksikan performa lebih baik. Melihat tingginya volume produksi film dan beragamnya preferensi penonton, pengembangan sistem rekomendasi yang mampu menyajikan film secara personal dan efisien dapat sangat membantu. Dengan mengintegrasikan pendekatan content-based dan collaborative filtering, pengguna dapat memperoleh saran film yang relevan baik berdasarkan genre favorit maupun pola perilaku pengguna lain. Pendekatan ini akan membantu mengatasi masalah kelebihan pilihan (information overload) dan meningkatkan kepuasan pengguna dalam menjelajahi platform film digital.
+Berdasarkan hasil pembahasan, rekomendasi yang dapat diberikan adalah mencoba mengembangkan sistem rekomendasi film berbasis hybrid dengan menggabungkan content-based filtering dan collaborative filtering secara lebih terintegrasi untuk meningkatkan akurasi dan relevansi hasil. Untuk memperkaya fitur content-based, metadata seperti aktor, sutradara, atau sinopsis dapat ditambahkan dari sumber eksternal seperti IMDb atau TMDb. Mengingat masih terdapat overfitting ringan pada collaborative filtering, penggunaan teknik regulasi seperti dropout, early stopping, dan validasi silang dapat membantu meningkatkan generalisasi model. Selain itu, untuk menangani cold-start pengguna baru, sistem dapat mengandalkan rekomendasi awal menggunakan content based filtering yang telah memiliki nilai Precision cukup baik. Evaluasi sistem juga perlu diperluas dengan metrik seperti Recall\@K untuk merefleksikan performa lebih baik. Melihat tingginya volume produksi film dan beragamnya preferensi penonton, pengembangan sistem rekomendasi yang mampu menyajikan film secara personal dan efisien dapat sangat membantu. Dengan mengintegrasikan pendekatan content-based dan collaborative filtering, pengguna dapat memperoleh saran film yang relevan baik berdasarkan genre favorit maupun pola perilaku pengguna lain. Pendekatan ini akan membantu mengatasi masalah kelebihan pilihan (information overload) dan meningkatkan kepuasan pengguna dalam menjelajahi platform film digital.
 
 **---Ini adalah bagian akhir laporan---**
